@@ -32,8 +32,8 @@ The default store database is in comma-delimited (CSV) format with some double-q
 | C13 | Store type |
 | C14 | Unknown |
 | C15 | Marketing graphic |
-| C16 | Longitude |
-| C17 | Latitude |
+| C16 | Latitude (degrees) |
+| C17 | Longitude (degrees) |
 | C18 | Sunday hours |
 | C19 | Monday hours |
 | C20 | Tuesday hours |
