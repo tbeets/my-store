@@ -1,4 +1,7 @@
-""" Basic routines for a storedb abstraction """
+"""
+Basic routines for a store database abstraction and parsing input CSV file.
+See README.md for field mapping
+"""
 
 import csv
 
@@ -23,20 +26,33 @@ class StoreDB:
 
     def parseinputfile(self, file_obj):
 
-        print('parseinputfile()')
+        # reset to allow on-demand refresh, refresh makes more sense in a non-trivial storedb implementation...
+        self.datarows = []
+        self.geolist = []
+
+        print 'Parsing input file...'
 
         with open(file_obj, 'r') as f:
            reader = csv.DictReader(f, fieldnames=COLHEADERS, quotechar='"', delimiter=',')
            for row in reader:
               self.datarows.append(row)
 
-        print self.datarows
+        """
+        Add a Google map link for each store as a downstream UX aid.
+        Reference: http://stackoverflow.com/questions/2660201/what-parameters-should-i-use-in-a-google-maps-url-to-go-to-a-lat-lon
 
+        Create a separate list of geo tuples as a comparison and convenience index using haversine calculation.
+        """
         for _, elem in enumerate(self.datarows):
+            elem['map_url'] = "".join(('http://maps.google.com/maps?z=12&t=m&q=loc:',
+                                        elem[LATITUDE], '+', elem[LONGITUDE]))
             self.geolist.append((float(elem[LATITUDE]), float(elem[LONGITUDE])))
+
+        print 'Parse complete'
 
 if __name__ == '__main__':
 
+    # For testing
     mystore = StoreDB()
     mystore.parseinputfile('./data/stores.csv')
 
