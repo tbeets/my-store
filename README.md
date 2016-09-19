@@ -165,3 +165,10 @@ Note: See [HTTPie command line HTTP client](https://httpie.org/)
         "map_url": "http://maps.google.com/maps?z=12&t=m&q=loc:39.409891+-76.7683938"
     }
 
+
+# Refactor and Optimization
+
+1. There are edge cases related to the `max` stores returned parameter for resource `/stores/nearest`. Currently the service short-circuits (returns) when `max` stores found in given search radius. Since store locale comparison is not ordered, closer stores to the consumer may not appear in results.
+1. The service uses a tuple list of store points in the search that is separate from the store data list (they are related by list index). This is redundant and makes potential optimizations using the optimized Python list sort more difficult.
+1. In a scale scenario, if there are more than a few hundreds of total stores, an unordered search and havasine computation may be inefficient. Ideally, the set of stores actually compared to the consumer location could be filtered based on first knowledge of the consumer location.  This could be an optimized region calculation of the customer location (allowing filter/ordering of stores). Potentially, at bootstrap, stores could be sorted into lat/long "buckets" and thus pre-sorted once the equivalent lat/long bucket of the consumer is also known.
+1. Load testing is required to understand the trade off of workers (Python processes) and gunicorn threads to get maximum performance (e.g. simultaneous requests, response latency) on a given server (vertical scale).  There is no request state involved so this service is very compatible with multiple servers (horizontal scale) or re-factor as "serverless" (e.g. AWS Lambda, GCP Cloud Functions )
