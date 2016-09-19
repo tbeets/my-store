@@ -1,0 +1,17 @@
+# Don't bring over the local git repo
+.git
+.gitignore
+
+# Kill the PyCharm files
+.idea
+.DS_Store
+
+# Don't bring over various local execution files
+.py[cod]
+__pycache__
+pip-log.txt
+venv
+
+# Don't bring over Docker provisioning files
+.dockerignore
+Dockerfile
