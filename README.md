@@ -4,7 +4,7 @@ Store lookup service given consumer coordinate and a search radius (miles)
 
 ## Store Database
 
-The default stores data is in comma-delimited (CSV) format with some double-quoted strings that may contain commas.
+Bootstrap store data is in comma-delimited (CSV) format with some double-quoted strings that may contain commas.
 
 | Column | Value |
 | ------ | ----- |
@@ -33,7 +33,7 @@ The default stores data is in comma-delimited (CSV) format with some double-quot
 | C23 | Friday hours |
 | C24 | Saturday hours |
 
-Note: On startup a file named `stores.csv` in the `data` sub-directory is loaded 
+Note: On startup a file named `stores.csv` in the `data` sub-directory is loaded (one copy per Python process). 
 
 # Standalone Service Execution
 
@@ -55,7 +55,7 @@ Using Flask built-in:
     
 Note: Use gunicorn and `workers` and `threads` to scale concurrent requests on a single server. 
 
-# Docker Execution
+# Docker Service Execution
 
 ## Application execution
 
@@ -63,7 +63,7 @@ Note: Use gunicorn and `workers` and `threads` to scale concurrent requests on a
 
 Note: Use `--env WEB_CONCURRENCY=x` to override default 2 gunicorn workers
 
-# API
+# Service API
 
 | Resource | Methods | Parameters | Description |
 | -------- | ------- | ----------- | ---------- |
@@ -77,7 +77,7 @@ Note: Use `--env WEB_CONCURRENCY=x` to override default 2 gunicorn workers
 | r | No, default 25 miles | Radius (in miles) from customer location defining store search area 
 | max | No, default 10 stores | Maximum number of stores returned matching search radius |
 
-# Client Invocation
+# Client API Invocation
 
 ##  Sample /stores/nearest request
 
